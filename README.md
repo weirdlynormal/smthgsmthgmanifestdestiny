@@ -1,0 +1,2 @@
+# smthgsmthgmanifestdestiny
+manifest
