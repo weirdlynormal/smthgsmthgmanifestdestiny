@@ -1,0 +1,19 @@
+import React from "react";
+import "./Dialog.css";
+
+function ErrorDialog({ show, message, onClose }) {
+    if (!show) return null;
+    // If no message is provided, default to "Error"
+    const displayMessage = message || "Error";
+    return (
+        <div className="dialog-backdrop" onClick={onClose}>
+            <div className="dialog-box">
+                <div className="dialog-title">Error</div>
+                <div className="dialog-message">{displayMessage}</div>
+                <button className="btn btn-secondary w-100 mt-3" onClick={onClose}>Close</button>
+            </div>
+        </div>
+    );
+}
+
+export default ErrorDialog;
