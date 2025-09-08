@@ -1,0 +1,155 @@
+import React, { useState } from 'react';
+import { useNavigate } from "react-router-dom";
+import API from "../axiosInstance";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "../Styles2/LoginPage.css";
+import PasswordResetDialog from "../components/PasswordResetDialog";
+import SecurityQuestionDialog from "../components/SecurityQuestionDialog";
+import ErrorDialog from "../components/ErrorDialog";
+
+function LoginPage() {
+    const navigate = useNavigate();
+    const [form, setForm] = useState({ userId: "", password: "" });
+    const [error, setError] = useState("");
+    const [showResetDialog, setShowResetDialog] = useState(false);
+    const [showSecurityDialog, setShowSecurityDialog] = useState(false);
+    const [showErrorDialog, setShowErrorDialog] = useState(false);
+    const [resetMessage, setResetMessage] = useState("");
+    const [securityQuestions] = useState(["Mother's Surname", "Pet's Name"]);
+    const [securityAnswer, setSecurityAnswer] = useState("");
+    const [selectedQuestion, setSelectedQuestion] = useState(securityQuestions[0]);
+
+    const handleChange = (e) => {
+        setForm({ ...form, [e.target.name]: e.target.value });
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const res = await API.post(`/api/auth/login?userId=${form.userId}&password=${form.password}`);
+            localStorage.setItem("jwt", res.data);
+            localStorage.setItem("userId", form.userId);
+            navigate("/");
+        } catch (err) {
+            setError("Invalid credentials");
+            setShowErrorDialog(true);
+        }
+    };
+
+    // Entry point for reset password
+    const handleResetClick = () => {
+        setShowSecurityDialog(true);
+        setResetMessage("");
+    };
+
+    // Security question submit handler
+    const handleSecuritySubmit = async (question, answer) => {
+        setSelectedQuestion(question);
+        setSecurityAnswer(answer);
+        setShowSecurityDialog(false);
+        try {
+            // Replace with your actual API request for security answer verification
+            const res = await API.post(`/api/auth/forget/verify?userId=${form.userId}&answer=${encodeURIComponent(answer)}`);
+            if (res.data && res.data === "Answer correct. You can reset password.") {
+                setShowResetDialog(true);
+            } else {
+                setError("Incorrect answer.");
+                setShowErrorDialog(true);
+            }
+        } catch (err) {
+            setError("Failed to verify answer.");
+            setShowErrorDialog(true);
+        }
+    };
+
+    // Reset password dialog submit handler
+    const handleResetSubmit = async (newPassword) => {
+        setResetMessage("");
+        try {
+            const res = await API.post(`/api/auth/forget/reset?userId=${form.userId}&newPassword=${newPassword}`);
+            setResetMessage(res.data); // "Password reset successfully."
+            setShowResetDialog(false);
+        } catch (err) {
+            setError("Failed to reset password. Please check your Emp ID.");
+            setShowErrorDialog(true);
+        }
+    };
+
+    const handleCloseErrorDialog = () => {
+        setShowErrorDialog(false);
+        setError("");
+    };
+
+    return (
+        <div className="container-fluid min-vh-100 d-flex flex-column p-0">
+            <div className="row header-bar">
+                <div className="col-6 header-left"></div>
+                <div className="col-6 header-right"></div>
+            </div>
+
+            <div className="row justify-content-center mt-3">
+                <div className="col-auto">
+                    <img src="C:\\Users\\2031021\\Bootcamp\\manoj_branch\\UI\\client\\src\\assets\\ScLogo.png" className="login-logo" alt="Logo" />
+                </div>
+            </div>
+            <div className="row justify-content-center align-items-center flex-grow-1 login-container">
+                <div className="col-12 col-md-6 col-lg-4">
+                    <div className="card p-4 login-box">
+                        <h4 className="mf text-center">Login</h4>
+                        <form onSubmit={handleSubmit}>
+                            <div className="mb-3 text-start">
+                                <label className="form-label">Emp ID</label>
+                                <input type="text" className="form-control" name="userId"
+                                    value={form.userId} onChange={handleChange} />
+                            </div>
+                            <div className="mb-3 text-start">
+                                <label className="form-label">Password</label>
+                                <input type="password" className="form-control" name="password"
+                                    value={form.password} onChange={handleChange} />
+                            </div>
+                            {resetMessage && <p className="text-success">{resetMessage}</p>}
+                            <div className="row g-2 mb-3">
+                                <div className="col-6 d-grid">
+                                    <button type="button" className="btn btn-secondary" onClick={() => navigate("/signup")}>
+                                        Sign Up
+                                    </button>
+                                </div>
+                                <div className="col-6 d-grid">
+                                    <button
+                                        type="button"
+                                        className="btn btn-outline-primary"
+                                        onClick={handleResetClick}
+                                        disabled={!form.userId}
+                                        title={!form.userId ? "Enter Emp ID first" : ""}
+                                    >
+                                        Reset Password
+                                    </button>
+                                </div>
+                            </div>
+                            <div className="d-grid">
+                                <button type="submit" className="btn btn-primary">Login</button>
+                            </div>
+                        </form>
+                        <div className="text-center mt-3 login-footer">Here For Good</div>
+                    </div>
+                </div>
+            </div>
+            {/* ... your footer ... */}
+            <SecurityQuestionDialog
+                show={showSecurityDialog}
+                questions={securityQuestions}
+                onSubmit={handleSecuritySubmit}
+            />
+            <PasswordResetDialog
+                show={showResetDialog}
+                onSubmit={handleResetSubmit}
+            />
+            <ErrorDialog
+                show={showErrorDialog}
+                message={error}
+                onClose={handleCloseErrorDialog}
+            />
+        </div>
+    );
+}
+export default LoginPage;
