@@ -1,13 +1,19 @@
 import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
-import API from "../axiosInstance";  // axios instance
-import "bootstrap/dist/css/bootstrap.min.css";
-import "../Styles2/LoginPage.css";
+import "../Styles2/LoginPage.module.css";
+import PasswordResetDialog from "../components/PasswordResetDialog";
+import SecurityQuestionDialog from "../components/SecurityQuestionDialog";
+import ErrorDialog from "../components/ErrorDialog";
 
 function LoginPage() {
     const navigate = useNavigate();
     const [form, setForm] = useState({ userId: "", password: "" });
     const [error, setError] = useState("");
+    const [resetMessage, setResetMessage] = useState("");
+    const [showResetDialog, setShowResetDialog] = useState(false);
+    const [showSecurityDialog, setShowSecurityDialog] = useState(false);
+    const [showErrorDialog, setShowErrorDialog] = useState(false);
+    const [securityQuestions] = useState(["Mother's Surname", "Pet's Name"]);
 
     const handleChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value });
@@ -15,28 +21,81 @@ function LoginPage() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setError("");
         try {
-            const res = await API.post(`/api/auth/login?userId=${form.userId}&password=${form.password}`);
-            localStorage.setItem("jwt", res.data);
+            const response = await fetch(`/api/auth/login?userId=${form.userId}&password=${form.password}`, {
+                method: "POST"
+            });
+            if (!response.ok) throw new Error("Invalid credentials");
+            const data = await response.text();
+            localStorage.setItem("jwt", data);
             localStorage.setItem("userId", form.userId);
-            navigate("/"); // redirect after logim
+            navigate("/");
         } catch (err) {
             setError("Invalid credentials");
+            setShowErrorDialog(true);
         }
+    };
+
+    const handleResetClick = () => {
+        setShowSecurityDialog(true);
+        setResetMessage("");
+    };
+
+    const handleSecuritySubmit = async (question, answer) => {
+        setShowSecurityDialog(false);
+        try {
+            const response = await fetch(`/api/auth/forget/verify?userId=${form.userId}&answer=${encodeURIComponent(answer)}`, {
+                method: "POST"
+            });
+            if (!response.ok) throw new Error("Failed to verify answer.");
+            const data = await response.text();
+            if (data === "Answer correct. You can reset password.") {
+                setShowResetDialog(true);
+            } else {
+                setError("Incorrect answer.");
+                setShowErrorDialog(true);
+            }
+        } catch (err) {
+            setError("Failed to verify answer.");
+            setShowErrorDialog(true);
+        }
+    };
+
+    const handleResetSubmit = async (newPassword) => {
+        setResetMessage("");
+        try {
+            const response = await fetch(`/api/auth/forget/reset?userId=${form.userId}&newPassword=${newPassword}`, {
+                method: "POST"
+            });
+            if (!response.ok) throw new Error("Failed to reset password. Please check your Emp ID.");
+            const data = await response.text();
+            setResetMessage(data);
+            setShowResetDialog(false);
+        } catch (err) {
+            setError("Failed to reset password. Please check your Emp ID.");
+            setShowErrorDialog(true);
+        }
+    };
+
+    const handleCloseErrorDialog = () => {
+        setShowErrorDialog(false);
+        setError("");
     };
 
     return (
         <div className="container-fluid min-vh-100 d-flex flex-column p-0">
-             <div className="row header-bar">
+            <div className="row header-bar">
                 <div className="col-6 header-left"></div>
                 <div className="col-6 header-right"></div>
             </div>
 
             <div className="row justify-content-center mt-3">
                 <div className="col-auto">
-                    <img src="C:\Users\2031021\Bootcamp\manoj_branch\UI\client\src\assets\ScLogo.png" className="login-logo" alt="Logo" />
+                    {/* Replace with your logo asset path */}
+                    <img src="/assets/ScLogo.png" className="login-logo" alt="Logo" />
                 </div>
-            </div>{}
+            </div>
             <div className="row justify-content-center align-items-center flex-grow-1 login-container">
                 <div className="col-12 col-md-6 col-lg-4">
                     <div className="card p-4 login-box">
@@ -52,17 +111,47 @@ function LoginPage() {
                                 <input type="password" className="form-control" name="password"
                                     value={form.password} onChange={handleChange} />
                             </div>
-                            {error && <p className="text-danger">{error}</p>}
+                            {resetMessage && <p className="text-success">{resetMessage}</p>}
+                            <div className="row g-2 mb-3">
+                                <div className="col-6 d-grid">
+                                    <button type="button" className="btn btn-secondary" onClick={() => navigate("/signup")}>
+                                        Sign Up
+                                    </button>
+                                </div>
+                                <div className="col-6 d-grid">
+                                    <button
+                                        type="button"
+                                        className="btn btn-outline-primary"
+                                        onClick={handleResetClick}
+                                        disabled={!form.userId}
+                                        title={!form.userId ? "Enter Emp ID first" : ""}
+                                    >
+                                        Reset Password
+                                    </button>
+                                </div>
+                            </div>
                             <div className="d-grid">
                                 <button type="submit" className="btn btn-primary">Login</button>
-                                <button type="button" className="bn btn-link p-0" onClick={() => navigate("/signup")}>Sign Up</button>
                             </div>
                         </form>
                         <div className="text-center mt-3 login-footer">Here For Good</div>
                     </div>
                 </div>
             </div>
-            {/* ... your footer ... */}
+            <SecurityQuestionDialog
+                show={showSecurityDialog}
+                questions={securityQuestions}
+                onSubmit={handleSecuritySubmit}
+            />
+            <PasswordResetDialog
+                show={showResetDialog}
+                onSubmit={handleResetSubmit}
+            />
+            <ErrorDialog
+                show={showErrorDialog}
+                message={error}
+                onClose={handleCloseErrorDialog}
+            />
         </div>
     );
 }
