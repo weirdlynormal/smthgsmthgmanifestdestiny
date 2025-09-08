@@ -1,16 +1,48 @@
-Compiled with problems:
-×
-ERROR in ./src/App.js 8:0-25
-Module not found: Error: Can't resolve './LoginPage.css' in 'C:\Users\2031021\Bootcamp\SC_UI_FINAL_LOGINPGE\src'
-ERROR in ./src/LoginPage.js 8:0-68
-Module not found: Error: You attempted to import ../components/PasswordResetDialog which falls outside of the project src/ directory. Relative imports outside of src/ are not supported.
-You can either move it inside src/, or add a symlink to it from project's node_modules/.
-ERROR in ./src/LoginPage.js 9:0-74
-Module not found: Error: You attempted to import ../components/SecurityQuestionDialog which falls outside of the project src/ directory. Relative imports outside of src/ are not supported.
-You can either move it inside src/, or add a symlink to it from project's node_modules/.
-ERROR in ./src/LoginPage.js 10:0-52
-Module not found: Error: You attempted to import ../components/ErrorDialog which falls outside of the project src/ directory. Relative imports outside of src/ are not supported.
-You can either move it inside src/, or add a symlink to it from project's node_modules/.
+15:40:47.776 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.scb.Payment.Initiation.PaymentInitiationApplicationTests]: PaymentInitiationApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+15:40:47.919 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.scb.Payment.Initiation.PaymentInitiationApplication for test class com.scb.Payment.Initiation.PaymentInitiationApplicationTests
+15:40:48.198 [main] INFO org.springframework.boot.devtools.restart.RestartApplicationListener -- Restart disabled due to context in which it is running
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.5.5)
+
+2025-09-08T15:40:48.511+05:30  INFO 14344 --- [Payment-Initiation] [           main] .s.P.I.PaymentInitiationApplicationTests : Starting PaymentInitiationApplicationTests using Java 17.0.8 with PID 14344 (started by 2031021 in C:\Users\2031021\Bootcamp\manoj_branch\Backend)
+2025-09-08T15:40:48.514+05:30  INFO 14344 --- [Payment-Initiation] [           main] .s.P.I.PaymentInitiationApplicationTests : No active profile set, falling back to 1 default profile: "default"
+2025-09-08T15:40:49.362+05:30  INFO 14344 --- [Payment-Initiation] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-09-08T15:40:49.446+05:30  INFO 14344 --- [Payment-Initiation] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 73 ms. Found 7 JPA repository interfaces.
+2025-09-08T15:40:50.082+05:30  INFO 14344 --- [Payment-Initiation] [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-09-08T15:40:50.137+05:30  INFO 14344 --- [Payment-Initiation] [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.26.Final
+2025-09-08T15:40:50.171+05:30  INFO 14344 --- [Payment-Initiation] [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-09-08T15:40:50.496+05:30  INFO 14344 --- [Payment-Initiation] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-09-08T15:40:50.530+05:30  INFO 14344 --- [Payment-Initiation] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-09-08T15:40:50.649+05:30  INFO 14344 --- [Payment-Initiation] [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@2a120c88
+2025-09-08T15:40:50.651+05:30  INFO 14344 --- [Payment-Initiation] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-09-08T15:40:50.759+05:30  WARN 14344 --- [Payment-Initiation] [           main] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-09-08T15:40:50.797+05:30  INFO 14344 --- [Payment-Initiation] [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 13.3
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-09-08T15:40:51.770+05:30  INFO 14344 --- [Payment-Initiation] [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-09-08T15:40:52.139+05:30  INFO 14344 --- [Payment-Initiation] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-09-08T15:40:52.526+05:30  INFO 14344 --- [Payment-Initiation] [           main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-09-08T15:40:53.623+05:30  INFO 14344 --- [Payment-Initiation] [           main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name userDetailsServiceImpl
+2025-09-08T15:40:53.654+05:30  WARN 14344 --- [Payment-Initiation] [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-09-08T15:40:54.763+05:30  INFO 14344 --- [Payment-Initiation] [           main] .s.P.I.PaymentInitiationApplicationTests : Started PaymentInitiationApplicationTests in 6.575 seconds (process running for 7.802)
+OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+2025-09-08T15:40:55.357+05:30  INFO 14344 --- [Payment-Initiation] [ionShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-09-08T15:40:55.360+05:30  INFO 14344 --- [Payment-Initiation] [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-09-08T15:40:55.368+05:30  INFO 14344 --- [Payment-Initiation] [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+
+Process finished with exit code 0
 
 
 
