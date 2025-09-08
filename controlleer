@@ -1,18 +1,14 @@
 Compiled with problems:
 ×
-ERROR in ./src/LoginPage.js 7:0-35
-Module not found: Error: You attempted to import ../axiosInstance which falls outside of the project src/ directory. Relative imports outside of src/ are not supported.
-You can either move it inside src/, or add a symlink to it from project's node_modules/.
-ERROR in ./src/LoginPage.js 9:0-34
-Module not found: Error: You attempted to import ../Styles2/LoginPage.css which falls outside of the project src/ directory. Relative imports outside of src/ are not supported.
-You can either move it inside src/, or add a symlink to it from project's node_modules/.
-ERROR in ./src/LoginPage.js 10:0-68
+ERROR in ./src/App.js 8:0-25
+Module not found: Error: Can't resolve './LoginPage.css' in 'C:\Users\2031021\Bootcamp\SC_UI_FINAL_LOGINPGE\src'
+ERROR in ./src/LoginPage.js 8:0-68
 Module not found: Error: You attempted to import ../components/PasswordResetDialog which falls outside of the project src/ directory. Relative imports outside of src/ are not supported.
 You can either move it inside src/, or add a symlink to it from project's node_modules/.
-ERROR in ./src/LoginPage.js 11:0-74
+ERROR in ./src/LoginPage.js 9:0-74
 Module not found: Error: You attempted to import ../components/SecurityQuestionDialog which falls outside of the project src/ directory. Relative imports outside of src/ are not supported.
 You can either move it inside src/, or add a symlink to it from project's node_modules/.
-ERROR in ./src/LoginPage.js 12:0-52
+ERROR in ./src/LoginPage.js 10:0-52
 Module not found: Error: You attempted to import ../components/ErrorDialog which falls outside of the project src/ directory. Relative imports outside of src/ are not supported.
 You can either move it inside src/, or add a symlink to it from project's node_modules/.
 
