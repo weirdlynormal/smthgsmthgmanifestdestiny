@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./Dialog.css";
+import styles from "./Dialog.module.css";
 
 function SecurityQuestionDialog({ show, questions = ["Mother's Surname", "Pet's Name"], onSubmit }) {
     const [selectedQuestion, setSelectedQuestion] = useState(questions[0] || "");
@@ -17,12 +17,12 @@ function SecurityQuestionDialog({ show, questions = ["Mother's Surname", "Pet's 
     };
 
     return (
-        <div className="dialog-backdrop">
-            <div className="dialog-box">
-                <div className="dialog-title">Security Question</div>
+        <div className={styles.dialogBackdrop}>
+            <div className={styles.dialogBox}>
+                <div className={styles.dialogTitle}>Security Question</div>
                 <form onSubmit={handleSubmit}>
                     <select
-                        className="dialog-select"
+                        className={styles.dialogSelect}
                         value={selectedQuestion}
                         onChange={handleQuestionChange}
                     >
@@ -36,7 +36,7 @@ function SecurityQuestionDialog({ show, questions = ["Mother's Surname", "Pet's 
                         type="text"
                         value={answer}
                         onChange={e => setAnswer(e.target.value)}
-                        className="dialog-input"
+                        className={styles.dialogInput}
                         placeholder="Enter your answer"
                         required
                     />
