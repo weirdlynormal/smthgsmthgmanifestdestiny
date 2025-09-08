@@ -1,0 +1,45 @@
+package com.scb.Payment.Initiation.controller;
+
+import com.scb.Payment.Initiation.entity.Users;
+import com.scb.Payment.Initiation.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+@RestController
+@RequestMapping("/api/auth")
+public class UserController {
+
+    @Autowired
+    private UserService userService;
+
+    @PostMapping("/signup")
+    public ResponseEntity<Users> signup(@RequestBody Users user) {
+        return ResponseEntity.ok(userService.signup(user));
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@RequestParam String userId,
+                                        @RequestParam String password) {
+        return ResponseEntity.ok(userService.login(userId, password));
+    }
+
+    @PostMapping("/forget/verify")
+    public ResponseEntity<String> verifyAnswer(@RequestParam String userId,
+                                               @RequestParam String answer) {
+        if (userService.verifySecurityAnswer(userId, answer)) {
+            return ResponseEntity.ok("Answer correct. You can reset password.");
+        }
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Incorrect answer.");
+    }
+
+    @PostMapping("/forget/reset")
+    public ResponseEntity<String> resetPassword(@RequestParam String userId,
+                                                @RequestParam String newPassword) {
+        userService.resetPassword(userId, newPassword);
+        return ResponseEntity.ok("Password reset successfully.");
+    }
+}
+
+
+
