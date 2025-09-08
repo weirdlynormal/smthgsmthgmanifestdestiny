@@ -1,0 +1,45 @@
+.btn-success {
+  background-color: #38D200;
+  border: none;
+}
+.btn-success:hover {
+  background-color: #2ca300;
+}
+.dialog-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+.dialog-box {
+  background: #fff;
+  color: #000;
+  padding: 2rem 3rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  min-width: 300px;
+  text-align: center;
+}
+.dialog-title {
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+.dialog-message {
+  margin-top: 1rem;
+}
+.dialog-input {
+  margin-top: 1rem;
+  width: 100%;
+  padding: 0.5rem;
+}
+.dialog-select {
+  margin-top: 1rem;
+  width: 100%;
+  padding: 0.5rem;
+}
