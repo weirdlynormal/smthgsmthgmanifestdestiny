@@ -1,73 +1,101 @@
+
 import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
-import API from "../axiosInstance";  // axios instance
+import API from "../axiosInstance";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "../Styles2/LoginPage.css";
+import "../Styles2/SignUpPage.css";
+import ScLogo from "../assets/ScLogo.jpg";
 
-function LoginPage() {
-    const navigate = useNavigate();
-    const [form, setForm] = useState({ userId: "", password: "" });
-    const [error, setError] = useState("");
+function SignUpPage() {
+  const navigate = useNavigate();
+  const [form, setForm] = useState({
+    userId: "",
+    email: "",
+    password: "",
+    retype_password: "",
+    securityQuestion: "Mother's Surname",
+    securityAnswer: ""
+  });
 
-    const handleChange = (e) => {
-        setForm({ ...form, [e.target.name]: e.target.value });
-    };
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            const res = await API.post(`/api/auth/login?userId=${form.userId}&password=${form.password}`);
-            localStorage.setItem("jwt", res.data);
-            localStorage.setItem("userId", form.userId);
-            navigate("/"); // redirect after logim
-        } catch (err) {
-            setError("Invalid credentials");
-        }
-    };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (form.password !== form.retype_password) {
+      alert("Passwords do not match");
+      return;
+    }
+    try {
+      await API.post("/api/auth/signup", {
+        userId: form.userId,
+        password: form.password,
+        securityQuestion: form.securityQuestion,
+        securityAnswer: form.securityAnswer
+      });
+      alert("Signup successful! Please login.");
+      navigate("/login");
+    } catch (err) {
+      alert("Signup failed. Try again.");
+    }
+  };
 
-    return (
-        <div className="container-fluid min-vh-100 d-flex flex-column p-0">
-             <div className="row header-bar">
-                <div className="col-6 header-left"></div>
-                <div className="col-6 header-right"></div>
-            </div>
+  return (
+    <div className="container-fluid min-vh-100 overflow-hidden d-flex flex-column p-0">
+      <div className="row header-bar">
+        <div className="col-6 header-left"></div>
+        <div className="col-6 header-right"></div>
 
-            <div className="row justify-content-center mt-3">
-                <div className="col-auto">
-                    <img src="C:\Users\2031021\Bootcamp\manoj_branch\UI\client\src\assets\ScLogo.png" className="login-logo" alt="Logo" />
-                </div>
-            </div>{}
-            <div className="row justify-content-center align-items-center flex-grow-1 login-container">
-                <div className="col-12 col-md-6 col-lg-4">
-                    <div className="card p-4 login-box">
-                        <h4 className="mf text-center">Login</h4>
-                        <form onSubmit={handleSubmit}>
-                            <div className="mb-3 text-start">
-                                <label className="form-label">Emp ID</label>
-                                <input type="text" className="form-control" name="userId"
-                                    value={form.userId} onChange={handleChange} />
-                            </div>
-                            <div className="mb-3 text-start">
-                                <label className="form-label">Password</label>
-                                <input type="password" className="form-control" name="password"
-                                    value={form.password} onChange={handleChange} />
-                            </div>
-                            {error && <p className="text-danger">{error}</p>}
-                            <div className="d-grid">
-                                <button type="submit" className="btn btn-primary">Login</button>
-                                <button type="button" className="bn btn-link p-0" onClick={() => navigate("/signup")}>Sign Up</button>
-                            </div>
-                        </form>
-                        <div className="text-center mt-3 login-footer">Here For Good</div>
-                    </div>
-                </div>
-            </div>
-            {/* ... your footer ... */}
+      </div>
+      <div className="row justify-content-center mt-3">
+        <div className="col-auto">
+          <img src={ScLogo}className="login-logo"/> 
         </div>
-    );
+      </div>
+      <div className="row justify-content-center mt-2">
+        <div className="col-12 text-center fw-bold">Standard Chartered Internal Payment InitationSystem</div>
+          
+        
+      </div>
+      <div className="row justify-content-center align-items-center flex-grow-1">
+        <div className="col-12 col-md-6 col-lg-4">
+          <div className="card p-4">
+            <h4 className="text-center">Sign Up</h4>
+            <form onSubmit={handleSubmit}>
+            <label className="form-label">Employee ID</label>
+              <input type="text" className="form-control mb-2" name="userId"
+                value={form.userId} onChange={handleChange} placeholder="Employee ID" />
+                <label className="form-label">Email</label>
+              <input type="email" className="form-control mb-2" name="email"
+                value={form.email} onChange={handleChange} placeholder="Email ID" />
+                <label className="form-label">Password</label>
+              <input type="password" className="form-control mb-2" name="password"
+                value={form.password} onChange={handleChange} placeholder="Password" />
+                <label className="form-label">Confirm Password</label>
+              <input type="password" className="form-control mb-2" name="retype_password"
+                value={form.retype_password} onChange={handleChange} placeholder="Re-type Password" />
+                <label className="form-label">Question</label>
+              <select className="form-select mb-2" name="securityQuestion"
+                value={form.securityQuestion} onChange={handleChange}>
+                <option value="Mother's Surname">Mother's Surname</option>
+                <option value="Pet's Name">Pet's Name</option>
+              </select>
+              <label className="form-label">Answer</label>
+              <input type="text" className="form-control mb-2" name="securityAnswer"
+                value={form.securityAnswer} onChange={handleChange} placeholder="Security Answer" />
+              <button type="button" className="bn btn-link p-0" onClick={()=>navigate("/login")}>Back to Login</button>
+              <div className="d-grid">
+                <button type="submit" className="btn btn-success">Sign Up</button>
+              </div>
+            </form>
+            <div className="text-center mt-3 login-footer">Here For Good</div>
+          </div>
+        </div>
+      </div>
+      {/* ... your footer ... */}
+    </div>
+  );
 }
-export default LoginPage;
-
-
-
+export default SignUpPage;
 
